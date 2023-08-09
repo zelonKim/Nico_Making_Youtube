@@ -1,4 +1,9 @@
 import express from "express"
+import globalRouter from "./routers/globalRouter";
+import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
+
+
 const app = express();
 
 const PORT = 4000;
@@ -6,6 +11,7 @@ const handleListening = () => console.log(`Server is listening on http://localho
 
 app.listen(PORT, handleListening) // 포트번호가 4000인 서버를 리스닝하여 구동함.
 // 주소창에 'localhost:4000'을 입력하여 해당 서버에 접속할 수 있음.
+
 
 
 
@@ -167,23 +173,9 @@ app.get("/login", handleLogin)
 
 
 
-
-
-
-
-const globalRouter = express.Router()
-const handleHome = (req, res) => res.send("Home")
-globalRouter.get("/", handleHome)
-
-const userRouter = express.Router()
-const handleEditUser = (req, res) => res.send("Edit User")
-userRouter.get("/edit", handleEditUser)
-
-const videoRouter = express.Router()
-const handleWatchVideo = (req, res) => res.send("Watch Video")
-videoRouter.get("/watch", handleWatchVideo)
-
-
 app.use("/", globalRouter)
-app.use("/users", userRouter)
 app.use("/videos", videoRouter)
+app.use("/users", userRouter)
+
+
+app.set("view engine", "pug")
