@@ -1,0 +1,21 @@
+extends base.pug
+include mixins/video.pug 
+
+block content
+    h2 Welcome to Video Home
+    ul
+        each video in videos 
+            li=video
+
+        each objVideo in objVideos 
+           +mixVideo(objVideo)
+
+        else 
+            li Can not find it
+
+
+        // each video in videos  ->  videos 배열의 각 아이템을 video 변수에 담아줌.    
+
+        // else  ->  배열의 아이템이 없을 경우
+
+        // mixin함수는 앞에 +를 붙여 호출함.
