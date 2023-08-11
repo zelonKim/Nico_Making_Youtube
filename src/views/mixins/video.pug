@@ -1,12 +1,10 @@
-mixin mixVideo(objVideo) 
+mixin mixVideo(video) 
  div
-    h4=objVideo.title
+    h4 
+        a(href=`/videos/${video.id}`)=video.title
     ul 
-        li #{objVideo.rating} / 5
-        li #{objVideo.comments} comments.
-        li  #{objVideo.createdAt} Posted.
-        li #{objVideo.views} views.
-
-        // mixin은 '데이터를 받을 수 있는 미리 만들어진 HTML 조각'임.
-        // mixin키워드를 통해 '매개변수로 각 데이터를 받는 mixin함수'를 정의함.
+        li #{video.rating} / 5
+        li #{video.comments} comments.
+        li #{video.createdAt} Posted.
+        li #{video.views} views.
 
