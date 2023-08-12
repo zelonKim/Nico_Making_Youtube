@@ -1,17 +1,22 @@
 import express from "express"
+import morgan from "morgan"
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
 const app = express();
+const logger = morgan("dev")
 
-const PORT = 4000;
-const handleListening = () => console.log(`Server is listening on http://localhost:${PORT}`)
+app.set("view engine", "pug")
+app.set("views", process.cwd() + "/src/views")
+app.use(logger)
+app.use(express.urlencoded({ extended: true })) 
 
-app.listen(PORT, handleListening) // 포트번호가 4000인 서버를 리스닝하여 구동함.
-// 주소창에 'localhost:4000'을 입력하여 해당 서버에 접속할 수 있음.
+app.use("/", globalRouter)
+app.use("/users", userRouter)
+app.use("/videos", videoRouter)
 
-
+export default app;
 
 
 ///////////////////////////////////
@@ -173,12 +178,5 @@ app.get("/login", handleLogin)
 
 
 
-app.use(express.urlencoded({ extended: true })) // 익스프레스에서 form의 value들을 자바스크립트 형식으로 변형해줌.
-app.use("/", globalRouter)
-app.use("/users", userRouter)
-app.use("/videos", videoRouter)
 
-app.set("view engine", "pug")
-
-app.set("views", process.cwd() + "/src/views")
 

@@ -1,9 +1,8 @@
 import express from 'express'
-import { homeVideo, getEdit, postEdit, upload, deleteVideo, watchVideo, getUpload, postUpload } from '../controllers/videoController'
+import { getEdit, postEdit, deleteVideo, watchVideo, getUpload, postUpload } from '../controllers/videoController'
 
 const videoRouter = express.Router()
 
-videoRouter.get("/", homeVideo)
 videoRouter.get("/:id(\\d+)", watchVideo)
 videoRouter.get("/:id(\\d+)/delete", deleteVideo)
 

@@ -2,10 +2,10 @@ extends base.pug
 include mixins/video.pug 
 
 block content
-    h2 Welcome to Video Home
     ul
         each video in videos 
-           +mixVideo(video)
+           +mixVideo(video)  
 
         else 
             li Can not find it
+
