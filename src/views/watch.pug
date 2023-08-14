@@ -1,17 +1,12 @@
 extends base.pug
 
 block content 
-    h3 #{video.views} #{video.views === 1 ? "view" : "views"}
+  div
+    p=video.description
+    small=video.createdAt
 
-    a(href="/edit") Edit A  &rarr; 
-      // http://localhost:4000/edit 으로 absoulte하게 이동함.
+  a(href=`${video.id}/edit`) Edit &rarr;    
 
-    a(href="edit") Edit B &rarr;    
-      // http://localhost:4000/videos/edit 으로 relative하게 이동함.
-
-    a(href=`${video.id}/edit`) Edit C &rarr;    
-      // http://localhost:4000/videos/1/edit 으로 relative하게 이동함.
       
-      // 경로 맨 앞에 슬래시(/)가 붙은 경우 -> absoulte하게 이동함.
-      // 경로 맨 앞에 슬래시(/)가 붙지 않은 경우 -> relative하게 이동함.
+
 

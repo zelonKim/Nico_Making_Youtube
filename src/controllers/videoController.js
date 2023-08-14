@@ -1,3 +1,4 @@
+import { Error } from 'mongoose'
 import Video from '../models/Video'
 
 export const home = async (req, res) => {
@@ -14,18 +15,18 @@ export const home = async (req, res) => {
 export const postUpload = async (req, res) => {
     const { title, description, hashtags } = req.body
 
-    await Video.create({ // await 모델명.create({ 필드명: 값 })으로 해당 모델에 '다큐먼트를 생성'함.
-        title,
-        description,
-        createdAt: Date.now(),
-        hashtags: hashtags.split(",").map((word) => `#${word}`),
-        meta: {
-            views: 1,
-            rating: 5,
-        },
-    })
-
-    return res.redirect("/")
+    try{
+        await Video.create({ 
+            title,
+            description,
+            hashtags,
+        })
+        return res.redirect("/")
+    }
+    catch(error) {
+        console.log(error)
+        return res.render("upload", {pageTitle: "Upload Video", errorMessage: error._message})
+    }
 }
 
 
@@ -40,24 +41,44 @@ export const getUpload = (req, res) => {
 
 
 
-export const watchVideo = (req, res) => {
+export const watchVideo = async (req, res) => {
     const { id } = req.params
+    const video = await Video.findById(id)
     
-    return res.render("watch", {pageTitle: `Watching `})
+    if(!video) {
+        return res.render("404", { pageTitle: "Video not found." })
+    }
+    return res.render("watch", { pageTitle: video.title, video })
 }
 
 
-export const getEdit = (req, res) =>  {
+
+export const getEdit = async (req, res) =>  {
     const { id } = req.params
-    
-    return res.render("edit", {pageTitle: `Editing `})
+    const video = await Video.findById(id) // 주어진 id와 일치하는 데이터를 찾아서 반환함.
+
+    if(!video) {
+        return res.render("404", { pageTitle: "Video not found." })
+    }
+    return res.render("edit", {pageTitle: `Edit ${video.title}`, video})
 }
 
-export const postEdit = (req, res) => {
+
+
+export const postEdit = async (req, res) => {
     const { id } = req.params;
-    console.log(req.body) // 콘솔에 { title: 'First video' } 가 출력됨.  // req.body는 인풋창의 { name의 값 : value의 값 } 을 나타냄.
-    const { title } = req.body;
-    
+    const {title, description, hashtags} = req.body
+    const video = await Video.exists({_id: id}) // 주어진 필터 조건과 일치하는 데이터가 존재하면 이를 반환함.
+
+    if(!video) {
+        return res.render("404", { pageTitle: "Video not found." })
+    }
+
+    await Video.findByIdAndUpdate(id, {
+        title,
+        description, 
+        hashtags: hashtags.split(",").map((word) => word.startsWith('#') ? word :`#${word}`)
+    } )
 
     return res.redirect(`/videos/${id}`)
 }

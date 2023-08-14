@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://127.0.0.1:27017/wetube", {useNewUrlParser: true,  useUnifiedTopology: true})
+mongoose.connect("mongodb://127.0.0.1:27017/wetube", {useNewUrlParser: true,  useUnifiedTopology: true })
 // 모듈명.connect("mongodb://127.0.0.1:27017/ 데이터 베이스명")으로 mongodb의 해당 데이터베이스와 Node.js를 연결함.
 
 

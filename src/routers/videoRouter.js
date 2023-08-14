@@ -3,17 +3,22 @@ import { getEdit, postEdit, deleteVideo, watchVideo, getUpload, postUpload } fro
 
 const videoRouter = express.Router()
 
-videoRouter.get("/:id(\\d+)", watchVideo)
+
+videoRouter.get("/:id([0-9a-f]{24})", watchVideo)
+videoRouter.route("/:id([0-9a-f]{24})/edit").get(getEdit).post(postEdit);
+videoRouter.route("/upload").get(getUpload).post(postUpload)
+
+
 videoRouter.get("/:id(\\d+)/delete", deleteVideo)
 
 
 // videoRouter.get("/:id(\\d+)/edit", getEdit)
 // videoRouter.post("/:id(\\d+)/edit", postEdit)
-videoRouter.route("/:id(\\d+)/edit").get(getEdit).post(postEdit);
+
 
 
 // videoRouter.get("/upload", getUpload )
 // videoRouter.post("/upload", postUpload )
-videoRouter.route("/upload").get(getUpload).post(postUpload)
+
 
 export default videoRouter
