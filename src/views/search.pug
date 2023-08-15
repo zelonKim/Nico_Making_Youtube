@@ -1,0 +1,14 @@
+extends base.pug
+include mixins/video
+
+block content 
+    form(method="GET")
+        input(placeholder="Search by title", type="text", name="keyword")
+        input(type="submit", value="Search now")
+        
+        // 인풋창에 hello를 입력하고서 Search now 제출 버튼을 누르면, 주소표시줄에 '?인풋창의 name = 인풋창 입력내용' 인 ?keyword=hello 가 출력됨.
+
+    each video in videos 
+        +mixVideo(video)
+
+
