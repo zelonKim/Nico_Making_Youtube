@@ -1,21 +1,34 @@
 doctype html
 html(lang="ko")
     head
-        title #{pageTitle} | Wetube
+        title #{pageTitle} | #{siteName}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body 
         header
-            h1=pageTitle
+            h1=pageTitle                
+            h1 how are #{hello} 
             nav 
                 ul 
                     li 
                         a(href="/videos/upload") Upload Video
                     li 
                         a(href="/") Home
+                    if loggedIn
+                        li 
+                            a(href="/logout") Log Out 
+                        li 
+                            a(href="/my-profile") #{loggedInUser.name}의 프로필
+                    else
+                        li 
+                            a(href="/join") Join
+                        li 
+                            a(href="/login") Login
                     li 
                         a(href="/search") Search
                     li 
-                        a(href="/join") join
+                        a(href="/videos/upload") Upload Video
         main
             block content
     include partials/footer.pug    
+
+    

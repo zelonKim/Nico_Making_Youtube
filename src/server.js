@@ -1,9 +1,13 @@
+
 import express from "express"
 import morgan from "morgan"
 import session from 'express-session';
 import globalRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import { localsMiddleware } from "./middlewares";
+import MongoStore from "connect-mongo";
+
 
 const app = express();
 const logger = morgan("dev")
@@ -15,23 +19,23 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(
     session({
-        secret: "Hello",
-        resave: true,
-        saveUninitialized: true,
-}))
+        secret: process.env.COOKIE_SECRET, // 쿠키에 sign할때 사용할 문자열
+        resave: false,
+        saveUninitialized: false, // 로그인 하지 않은 유저에게는 쿠키를 주지 않음. (로그인한 유저에게만 쿠키를 줌.)
+        cookie: {
+            maxAge: 10000, // 10초후에 쿠키가 만료됨.
+        },
+        store: MongoStore.create({ mongoUrl: process.env.DB_URL })
+}));
 
-app.use((req, res, next) => {
-    req.sessionStore.all((error, sessions) => {
-        console.log(sessions)
-        next()
-    })
-})
+
 
 app.get("/add-one", (req, res, next) => {
     return res.send(`${req.session.id}`)
 })
 
 
+app.use(localsMiddleware);
 app.use("/", globalRouter)
 app.use("/users", userRouter)
 app.use("/videos", videoRouter)
