@@ -23,7 +23,7 @@ app.use(
         resave: false,
         saveUninitialized: false, // 로그인 하지 않은 유저에게는 쿠키를 주지 않음. (로그인한 유저에게만 쿠키를 줌.)
         cookie: {
-            maxAge: 10000, // 10초후에 쿠키가 만료됨.
+            maxAge: 100000, 
         },
         store: MongoStore.create({ mongoUrl: process.env.DB_URL })
 }));
