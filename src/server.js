@@ -36,11 +36,13 @@ app.get("/add-one", (req, res, next) => {
 
 
 app.use(localsMiddleware);
+app.use("/uploads", express.static("uploads")) // 주어진 디렉토리에서 파일을 제공함.
 app.use("/", globalRouter)
 app.use("/users", userRouter)
 app.use("/videos", videoRouter)
 
 export default app;
+
 
 
 ///////////////////////////////////

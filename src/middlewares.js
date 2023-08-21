@@ -1,3 +1,5 @@
+import multer from "multer";
+
 export const localsMiddleware = (req, res, next) => {
     res.locals.loggedIn = Boolean(req.session.loggedIn); // 세션이 로그인 상태일 경우, loggedIn값은 true가 됨.
     res.locals.hello = "you" 
@@ -26,3 +28,9 @@ export const publicOnlyMiddleware = (req, res, next) => {
         return res.redirect("/");
     }
 }
+
+
+
+export const avatarUpload = multer({ dest: "uploads/avatars/", limits:{ fileSize: 3000000 } })
+
+export const videoUpload = multer({dest: "uploads/videos/", limits:{ fileSize: 100000000 } })

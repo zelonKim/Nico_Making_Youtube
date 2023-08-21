@@ -53,11 +53,13 @@ export const getEdit = async (req, res) =>  {
 
 export const postUpload = async (req, res) => {
     const { title, description, hashtags } = req.body
+    const { path } = req.file
 
     try{
         await Video.create({ 
             title,
             description,
+            fileUrl: path,
             hashtags: Video.formatHashtags(hashtags)
         })
         return res.redirect("/")

@@ -169,24 +169,32 @@ export const getEdit = (req, res) => {
   };
 
 
+
   export const postEdit = async (req, res) => {
     const { 
         session: {
-             user: { _id }, 
+             user: { _id, avatarUrl }, 
             },
             body: { name, email, username, location },
+            file
         } = req;
 
     const updatedUser = await User.findByIdAndUpdate(_id, {
-        name, email, username, location
-    }, {new: true}) // {new: true} 옵션을 설정할 경우, 업데이트가 적용된 후의 객체를 반환해줌.
+        avatarUrl: file ? file.path : avatarUrl,  
+        name, 
+        email, 
+        username, 
+        location
+    }, {new: true}) 
     
-    req.session.user = updatedUser
+    req.session.user = updatedUser // 데이터베이스에 파일이 아닌, 파일의 위치만 저장함.
 
     return res.redirect("/users/edit");
   };
 
   
+
+
 
 export const getChangePassword = (req, res) => {
     if(req.session.user.socialOnly === true) {
