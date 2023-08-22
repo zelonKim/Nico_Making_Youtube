@@ -1,8 +1,7 @@
-
 import express from "express"
 import morgan from "morgan"
 import session from 'express-session';
-import globalRouter from "./routers/rootRouter";
+import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import { localsMiddleware } from "./middlewares";
@@ -28,16 +27,9 @@ app.use(
         store: MongoStore.create({ mongoUrl: process.env.DB_URL })
 }));
 
-
-
-app.get("/add-one", (req, res, next) => {
-    return res.send(`${req.session.id}`)
-})
-
-
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads")) // 주어진 디렉토리에서 파일을 제공함.
-app.use("/", globalRouter)
+app.use("/", rootRouter)
 app.use("/users", userRouter)
 app.use("/videos", videoRouter)
 
