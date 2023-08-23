@@ -28,7 +28,8 @@ app.use(
 }));
 
 app.use(localsMiddleware);
-app.use("/uploads", express.static("uploads")) // 주어진 디렉토리에서 파일을 제공함.
+app.use("/uploads", express.static("uploads")) 
+app.use("/static", express.static("assets")) // 서버가 "해당 폴더" (assets)를 공개함으로써 "해당 브라우저 URL" (/static)에서 접근할 수 있도록 해줌.
 app.use("/", rootRouter)
 app.use("/users", userRouter)
 app.use("/videos", videoRouter)
