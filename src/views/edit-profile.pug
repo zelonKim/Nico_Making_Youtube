@@ -1,16 +1,14 @@
 extends base
 
 block content
-    img(src="/" + loggedInUser.avatarUrl, width="100", hegith="100")
-    form(method="POST", enctype="multipart/form-data")
+    form(method="POST", enctype="multipart/form-data").edit-profile__form
         label(for="avatar") Avatar
-        input(type="file", id="avatar", name="avatar", accept="image/*") 
-          //- accept 속성에 "image/*"을 줌으로써 유저가 이미지 파일만 선택할 수 있도록 함.
-        input(placeholder="Name",name="name", type="text", required, value=loggedInUser.name)
-        input(placeholder="Email",name="email", type="email", required, value=loggedInUser.email)
-        input(placeholder="Username",name="username", type="text", required, value=loggedInUser.username)
-        input(placeholder="Location",name="location", type="text", required, value=loggedInUser.location)
+        input(type="file", id="avatar", name="avatar", accept="image/*")
+        input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
+        input(placeholder="Email", name="email", type="email", required, value=loggedInUser.email)
+        input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
+        input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
         input(type="submit", value="Update Profile")
         if !loggedInUser.socialOnly
-            hr
-            a(href="change-password") Change Password &rarr;
+            div.edit-profile__password
+                a(href="change-password") Change Password &rarr;

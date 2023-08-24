@@ -1,11 +1,9 @@
-extends base.pug
-include mixins/video.pug 
+extends base
+include mixins/video
 
 block content
-    ul
-        each video in videos 
-           +mixVideo(video)  
-
-        else 
-            li Can not find it
-
+    div.video-grid
+        each video in videos
+            +video(video)
+        else
+            span.empty__message No videos found
