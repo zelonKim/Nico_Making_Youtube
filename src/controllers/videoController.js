@@ -150,3 +150,17 @@ export const search = async (req, res) => {
 
 export const upload = (req, res) => res.send("This is Upload")
 export const trending = (req, res) => res.send("This is Trending")
+
+
+
+export const registerView = async(req, res) => {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+
+    if(!video) {
+        return res.sendStatus(404)
+    }
+    video.meta.views = video.meta.views + 1;
+    await video.save()
+    return res.sendStatus(200)
+}

@@ -9,6 +9,7 @@ const fullscreenBtn = document.getElementById("fullscreen")
 const videoContainer = document.getElementById("videoContainer")
 const videoControls = document.getElementById("videoControls")
 
+
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5
@@ -99,16 +100,28 @@ const handleMouseMove = () => {
 
 const handleMouseLeave = () => {
     controlsTimeout = setTimeout(() => hideControls, 3000)
-    console.log(id)
     clearTimeout(id)
 }
+
+
+const handleEnded = () => {
+    const { id } = videoContainer.dataset // .dataset을 통해 요소의 data-속성에 지정된 값을 가져옴.
+    fetch(`/api/videos/${id}/view`, {method: "POST"})
+}
+
+
+
+
+video.addEventListener("loadedmetadata", handleLoadedMetadata)
+video.addEventListener("timeupdate" , handleTimeUpdate)
+video.addEventListener("ended", handleEnded)
+
 
 playBtn.addEventListener("click", handlePlayClick)
 muteBtn.addEventListener("click", handleMuteClick)
 volumeRange.addEventListener("input", handleVolumeChange)
-video.addEventListener("loadedmetadata", handleLoadedMetadata)
-video.addEventListener("timeupdate" , handleTimeUpdate)
 timeline.addEventListener("input", handleTimelineChange);
 fullscreenBtn.addEventListener("click", handleFullscreen);
 video.addEventListener("mousemove", handleMouseMove)
 video.addEventListener("mouseleave", handleMouseLeave)
+
