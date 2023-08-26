@@ -11,10 +11,12 @@ export const localsMiddleware = (req, res, next) => {
 // 익스프레스의 'res.locals.변수명'에 할당된 값은 pug템플릿에서 '변수명'으로 바로 접근할 수 있음. (express와 pug는 locals를 통해 서로 데이터를 공유함.)
 
 
+
 export const protectorMiddleware = (req, res, next) => {
     if(req.session.loggedIn) {
         next()
     } else {
+        req.flash("error", "you are not authorized") // req.flash(메시지의 종류, 메시지의 내용)
         return res.redirect("/login")
     }
 }
@@ -23,6 +25,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
     if(!req.session.loggedIn) {
         return next()
     } else {
+        req.flash("error", "you are not authorized") 
         return res.redirect("/");
     }
 }

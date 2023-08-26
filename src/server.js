@@ -7,6 +7,7 @@ import videoRouter from "./routers/videoRouter";
 import { localsMiddleware } from "./middlewares";
 import MongoStore from "connect-mongo";
 import apiRouter from "./routers/apiRouter";
+import flash from "express-flash"
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(
         store: MongoStore.create({ mongoUrl: process.env.DB_URL })
 }));
 
+app.use(flash()) 
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads")) 
 app.use("/static", express.static("assets")) // 서버가 "해당 폴더" (assets)를 공개함으로써 "해당 브라우저 URL" (/static)에서 접근할 수 있도록 해줌.

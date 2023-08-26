@@ -1,3 +1,5 @@
+include mixins/message
+
 doctype html
 html(lang="ko")
     head
@@ -5,10 +7,14 @@ html(lang="ko")
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
     body
+        if messages.error 
+            span=messages.error
+        if messages.info 
+            span=messages.info   
         include partials/header                
         main
             block content
         include partials/footer
     script(src="/static/js/main.js")    
     block scripts
-        
+        //- 템플릿에서 'messages.메시지의 종류'를 통해 req.flash에 지정된 메시지의 내용을 가져올 수 있음. 
