@@ -11,6 +11,7 @@ const videoSchema = new mongoose.Schema({
     meta: {
         views: { type: Number, required: true, default: 0 },
     },
+    comments: [{type:mongoose.Schema.Types.ObjectId, required: true, ref: "Comment"}], // video는 많은 comments를 가질 수 있음. -> 배열[] O
     owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"}
 })
 

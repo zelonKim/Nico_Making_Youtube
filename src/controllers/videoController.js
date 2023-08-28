@@ -18,7 +18,7 @@ export const home = async (req, res) => {
 
 export const watchVideo = async (req, res) => {
     const { id } = req.params
-    const video = await Video.findById(id).populate("owner") // 모델명.populate("필드명"): 해당 모델에서 필드명이 참조(ref)하고 있는 모델의 데이터를 채워넣음.
+    const video = await Video.findById(id).populate("owner").populate("comments") // 모델명.populate("필드명"): 해당 모델에서 필드명이 참조(ref)하고 있는 모델의 데이터를 채워넣음.
 
     if(!video) {
         return res.render("404", { pageTitle: "Video not found." })
@@ -164,4 +164,35 @@ export const registerView = async(req, res) => {
     video.meta.views = video.meta.views + 1;
     await video.save()
     return res.sendStatus(200)
+}
+
+
+// 백엔드
+export const createComment = async (req, res) => {
+    // console.log(req.params) // { id: '64e6b6424088523d743163da' }
+    // console.log(req.body) // { text: "I like it", rating: "5" }
+    // console.log(req.session.user) // 유저 정보가 출력됨.
+
+    const { 
+        session: { user },
+        body: { text },
+        params: { id }
+    } = req;
+
+    const video = await Video.findById(id)
+
+    if(!video) {
+        return res.sendStatus(404)
+    }
+
+    const comment = await Comment.create({
+        text,
+        owner: user._id,
+        video: id,
+    })
+
+    video.comments.push(comment._id)
+    video.save()
+
+    return res.status(201).json({ newCommentId: comment._id})  // res.json({자바스크립트 객체}): 자바스크립트 객체를 json문자열로 변환하여 프론트엔드에 응답(response)으로 보냄.
 }

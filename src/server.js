@@ -17,6 +17,7 @@ app.set("view engine", "pug")
 app.set("views", process.cwd() + "/src/views")
 app.use(logger)
 app.use(express.urlencoded({ extended: true })) 
+app.use(express.json()) // express.json()미들웨어는 json문자열을 자바스크립트 객체로 변환해줌. (-> 백엔드에서 프론트엔드로 데이터를 보낼 수 있음.)
 
 app.use(
     session({

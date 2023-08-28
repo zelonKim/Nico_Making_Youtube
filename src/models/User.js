@@ -9,12 +9,13 @@ const userSchema = new mongoose.Schema({
   password: String,
   name: { type: String, required: true },
   location: String,
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref:"Comment" }], // user는 많은 comments를 작성할 수 있음. -> 배열[] O
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }]
 });
 
 
 userSchema.pre("save", async function () {
-  if (this.isModified("password")) { // isModified() returns 'true' if any of the given paths are modified, else 'false'
+  if (this.isModified("password")) { 
     this.password = await bcrypt.hash(this.password, 5);
   }
 });
